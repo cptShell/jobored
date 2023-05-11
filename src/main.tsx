@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { MantineProvider } from '@mantine/core';
 import {
   VacancyPage,
   SearchPage,
@@ -26,6 +27,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <MantineProvider withGlobalStyles withNormalizeCSS>
+      <RouterProvider router={router}></RouterProvider>
+    </MantineProvider>
   </React.StrictMode>
 );

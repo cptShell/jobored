@@ -1,5 +1,10 @@
 import { FC } from 'react';
+import { Text } from '@mantine/core';
 
 export const SearchPage: FC = () => {
-  return <h1>Search Page</h1>;
+  return (
+    <div>
+      <Text>Search Page</Text>
+    </div>
+  );
 };
