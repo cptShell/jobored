@@ -10,6 +10,7 @@ const useStyles = createStyles(({ colors }) => ({
     backgroundColor: colors.mainBg[0],
     width: '100%',
     height: '100%',
+    maxWidth: '100%',
   },
 }));
 
@@ -23,7 +24,7 @@ export const App: FC = () => {
           { link: '/vacancy', label: 'Избранное' },
         ]}
       />
-      <Container className={classes.main}>
+      <Container m={0} p={0} className={classes.main}>
         <Outlet />
       </Container>
     </>

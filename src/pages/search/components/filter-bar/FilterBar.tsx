@@ -22,7 +22,7 @@ const useStyles = createStyles(({ colors }) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: '2em',
-    width: em('315px'),
+    minWidth: em('315px'),
     padding: em('20px'),
     backgroundColor: 'white',
     background: 'white',

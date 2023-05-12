@@ -6,6 +6,7 @@ import {
   Group,
   rem,
   Image,
+  em,
 } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import logo from '~/assets/logo.svg';
@@ -23,7 +24,7 @@ const useStyles = createStyles((theme) => ({
     justifyContent: 'center',
     height: '100%',
     width: '100%',
-    maxWidth: '1280px',
+    maxWidth: em('1115px'),
   },
 
   link: {
