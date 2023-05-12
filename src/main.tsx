@@ -27,7 +27,15 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <MantineProvider withGlobalStyles withNormalizeCSS>
+    <MantineProvider
+      withGlobalStyles
+      withNormalizeCSS
+      theme={{
+        colors: {
+          mainBg: ['#F7F7F8'],
+        },
+      }}
+    >
       <RouterProvider router={router}></RouterProvider>
     </MantineProvider>
   </React.StrictMode>
