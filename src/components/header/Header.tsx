@@ -4,30 +4,26 @@ import {
   Header,
   Container,
   Group,
-  Burger,
   rem,
+  Image,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useNavigate } from 'react-router-dom';
+import logo from '~/assets/logo.svg';
 
 const useStyles = createStyles((theme) => ({
-  header: {
+  wrapper: {
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: '100%',
+    justifyContent: 'center',
     width: '100%',
   },
 
-  links: {
-    [theme.fn.smallerThan('xs')]: {
-      display: 'none',
-    },
-  },
-
-  burger: {
-    [theme.fn.largerThan('xs')]: {
-      display: 'none',
-    },
+  header: {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
+    maxWidth: '1280px',
   },
 
   link: {
@@ -44,6 +40,14 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 500,
   },
 
+  logo: {
+    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    height: '100%',
+    left: 0,
+  },
+
   linkActive: {
     '&, &:hover': {
       color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
@@ -52,44 +56,38 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface HeaderSimpleProps {
-  links: { link: string; label: string }[];
-}
+type Link = { link: string; label: string };
+type Props = { links: Array<Link> };
 
-export const AppHeader: FC<HeaderSimpleProps> = ({ links }) => {
-  const [opened, { toggle }] = useDisclosure(false);
+export const AppHeader: FC<Props> = ({ links }) => {
+  const navigate = useNavigate();
   const [active, setActive] = useState(links[0].link);
   const { classes, cx } = useStyles();
 
-  const items = links.map((link) => (
-    <a
-      key={link.label}
-      href={link.link}
-      className={cx(classes.link, {
-        [classes.linkActive]: active === link.link,
-      })}
-      onClick={(event) => {
-        event.preventDefault();
-        setActive(link.link);
-      }}
-    >
-      {link.label}
-    </a>
-  ));
+  const items = links.map(({ link, label }) => {
+    const className = cx(classes.link, {
+      [classes.linkActive]: active === link,
+    });
+    const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault();
+      setActive(link);
+      navigate(link);
+    };
+
+    return (
+      <a key={label} href={link} className={className} onClick={handleClick}>
+        {label}
+      </a>
+    );
+  });
 
   return (
-    <Header height={60} mb={120}>
+    <Header height={60} className={classes.wrapper}>
       <Container className={classes.header}>
-        <Group spacing={5} className={classes.links}>
-          {items}
-        </Group>
-
-        <Burger
-          opened={opened}
-          onClick={toggle}
-          className={classes.burger}
-          size="sm"
-        />
+        <Container className={classes.logo}>
+          <Image width={140} height={30} src={logo} alt="" />
+        </Container>
+        <Group spacing={5}>{items}</Group>
       </Container>
     </Header>
   );

@@ -1,11 +1,9 @@
 import { FC, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import './App.css';
 import { AppHeader } from './components/components';
+import './App.css';
 
 export const App: FC = () => {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <AppHeader
