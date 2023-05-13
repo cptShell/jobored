@@ -83,7 +83,7 @@ export const AppHeader: FC<Props> = ({ links }) => {
   });
 
   return (
-    <Header height={60} className={classes.wrapper}>
+    <Header height={60} mih={60} className={classes.wrapper}>
       <Container className={classes.header}>
         <Container className={classes.logo}>
           <Image width={140} height={30} src={logo} alt="" />

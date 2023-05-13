@@ -33,10 +33,16 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       theme={{
         colors: {
           mainBg: ['#F7F7F8'],
+          mainBlack: ['#232134'],
+          mainBlue: ['#5E96FC'],
+          mainWhite: ['#FFFFFF'],
+          grey100: ['#F7F7F8'],
+          grey200: ['#EAEBED'],
+          grey500: ['#ACADB9'],
         },
       }}
     >
-      <RouterProvider router={router}></RouterProvider>
+      <RouterProvider router={router} />
     </MantineProvider>
   </React.StrictMode>
 );

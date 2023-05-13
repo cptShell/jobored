@@ -1,0 +1,1 @@
+export { vacancies } from './vacancies';

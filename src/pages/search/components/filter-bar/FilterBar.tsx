@@ -23,10 +23,10 @@ const useStyles = createStyles(({ colors }) => ({
     flexDirection: 'column',
     gap: '2em',
     minWidth: em('315px'),
+    height: '100%',
     padding: em('20px'),
-    backgroundColor: 'white',
-    background: 'white',
-    border: '1px solid #EAEBED',
+    backgroundColor: colors.mainWhite[0],
+    border: `1px solid ${colors.grey200[0]}`,
     borderRadius: em('12px'),
   },
 
@@ -80,15 +80,9 @@ export const FilterBar = () => {
         <Title fz={20} lh={'20px'}>
           Фильтры
         </Title>
-        <Button
-          onClick={handleReset}
-          p={0}
-          h={20}
-          variant="subtle"
-          color="gray"
-        >
-          <Text>Сбросить все</Text>
-          <IconX color="grey" height={em('16px')} width={em('20px')} />
+        <Button onClick={handleReset} p={0} h={20} variant="subtle">
+          <Text color="#ACADB9">Сбросить все</Text>
+          <IconX color="#ACADB9" height={em('16px')} width={em('20px')} />
         </Button>
       </Container>
       <Container p={0} m={0} className={classes.filter_content}>
