@@ -13,13 +13,17 @@ const favoritesSlice = createSlice({
   initialState,
   reducers: {
     addFavorite(state, action: PayloadAction<string>) {
-      state.favorites.push(action.payload);
+      state.favorites = [...state.favorites].concat(action.payload);
       localStorage.setItem('user-favorites', JSON.stringify(state.favorites));
     },
     removeFavorite(state, action: PayloadAction<string>) {
       const targetIndex = state.favorites.indexOf(action.payload);
-      if (targetIndex !== -1) state.favorites.splice(targetIndex, 1);
-      localStorage.setItem('user-favorites', JSON.stringify(state.favorites));
+      if (targetIndex !== -1) {
+        const newFavorites = [...state.favorites];
+        newFavorites.splice(targetIndex, 1);
+        state.favorites = newFavorites;
+        localStorage.setItem('user-favorites', JSON.stringify(state.favorites));
+      }
     },
   },
 });

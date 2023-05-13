@@ -22,7 +22,7 @@ export const App: FC = () => {
       <AppHeader
         links={[
           { link: '/search', label: 'Поиск Вакансий' },
-          { link: '/vacancy', label: 'Избранное' },
+          { link: '/favorite', label: 'Избранное' },
         ]}
       />
       <Container m={0} p={0} className={classes.main}>

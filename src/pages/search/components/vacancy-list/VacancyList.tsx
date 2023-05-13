@@ -20,7 +20,7 @@ type Props = {
 export const VacancyList: FC<Props> = ({ items }) => {
   const [activePage, setPage] = useState(1);
   const vacanciesPerPage = 4;
-  const startIndex = activePage * vacanciesPerPage;
+  const startIndex = (activePage - 1) * vacanciesPerPage;
   const endIndex = Math.min(startIndex + vacanciesPerPage, items.length);
   const onPageVacancies = items.slice(startIndex, endIndex);
   const totalPages = Math.floor(items.length / vacanciesPerPage);

@@ -8,7 +8,6 @@ import {
   createStyles,
   em,
 } from '@mantine/core';
-import axios from 'axios';
 import { IconChevronDown, IconX } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
 
@@ -54,7 +53,7 @@ const useStyles = createStyles(({ colors }) => ({
   filter_accept: {},
 }));
 
-export const FilterBar = () => {
+export const FilterBar: FC = () => {
   const { classes } = useStyles();
   const form = useForm({
     initialValues: {

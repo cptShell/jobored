@@ -8,9 +8,8 @@ import {
   Flex,
   Loader,
 } from '@mantine/core';
-import axios from 'axios';
-import { vacancies as mockVacancies } from '../../common/common';
-import { FilterBar, VacancyItem, VacancyList } from './components/components';
+import { Vacancy, vacancies as mockVacancies } from '../../common/common';
+import { FilterBar, VacancyList } from './components/components';
 import { IconSearch } from '@tabler/icons-react';
 import { get } from './get';
 
@@ -31,17 +30,6 @@ const useStyles = createStyles(({ colors }) => ({
     border: 'none',
   },
 }));
-
-type Vacancy = {
-  id: string;
-  profession: string;
-  firmName: string;
-  town: string;
-  workType: string;
-  paymentTo: string;
-  paymentFrom: string;
-  currency: string;
-};
 
 export const SearchPage: FC = () => {
   const { classes } = useStyles();

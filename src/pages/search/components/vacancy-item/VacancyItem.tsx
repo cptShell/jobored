@@ -6,11 +6,13 @@ import {
   Divider,
   em,
   ActionIcon,
+  Container,
 } from '@mantine/core';
 import { FC } from 'react';
-import { IconMapPin, IconStar, IconStarFilled } from '@tabler/icons-react';
+import { IconMapPin, IconStar } from '@tabler/icons-react';
 import { useAppDispatch, useAppSelector } from '../../../../store/hook';
 import { addFavorite, removeFavorite } from '../../../../store/favoriteSlice';
+import { IconStarFilled } from '../../../../assets/icon-star';
 
 const useStyles = createStyles(({ colors }) => ({
   vacancy: {
@@ -18,6 +20,7 @@ const useStyles = createStyles(({ colors }) => ({
     borderRadius: '0.5em',
     backgroundColor: 'white',
     width: '100%',
+    maxWidth: em('800px'),
   },
 
   title: {
@@ -55,21 +58,27 @@ export const VacancyItem: FC<Props> = ({ data }) => {
   const { classes } = useStyles();
   const titleText = profession + (firmName ? ` (${firmName})` : '');
   const salary = `з/п ${currency} rub`;
-
   const handleFavoriteChange = () => {
     dispatch(isFavorite ? removeFavorite(id) : addFavorite(id));
   };
-
+  console.log('#5E96FC', '#ACADB9');
   return (
     <Flex
       p={'1.5em'}
       direction={'column'}
       gap={'0.75em'}
       className={classes.vacancy}
+      pos={'relative'}
     >
-      <ActionIcon onClick={handleFavoriteChange}>
-        {isFavorite ? <IconStarFilled /> : <IconStar />}
+      <ActionIcon
+        onClick={handleFavoriteChange}
+        pos={'absolute'}
+        top={'1.5em'}
+        right={'1.5em'}
+      >
+        {isFavorite ? <IconStarFilled /> : <IconStar color="#ACADB9" />}
       </ActionIcon>
+
       <Title fw={600} className={classes.title}>
         {titleText}
       </Title>
