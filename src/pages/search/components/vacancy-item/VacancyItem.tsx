@@ -1,5 +1,4 @@
 import {
-  Container,
   Title,
   Text,
   Flex,
@@ -8,9 +7,10 @@ import {
   em,
   ActionIcon,
 } from '@mantine/core';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { IconMapPin, IconStar, IconStarFilled } from '@tabler/icons-react';
-import { useTheme } from '@emotion/react';
+import { useAppDispatch, useAppSelector } from '../../../../store/hook';
+import { addFavorite, removeFavorite } from '../../../../store/favoriteSlice';
 
 const useStyles = createStyles(({ colors }) => ({
   vacancy: {
@@ -45,15 +45,20 @@ type Vacancy = {
 
 type Props = {
   data: Vacancy;
-  isFavorite: boolean;
-  handleChange: () => void;
 };
 
-export const VacancyItem: FC<Props> = ({ data, isFavorite, handleChange }) => {
-  const { profession, firmName, town, workType, currency } = data;
+export const VacancyItem: FC<Props> = ({ data }) => {
+  const { profession, firmName, town, workType, currency, id } = data;
+  const { favorites } = useAppSelector((state) => state.favorites);
+  const isFavorite = favorites.includes(id);
+  const dispatch = useAppDispatch();
   const { classes } = useStyles();
   const titleText = profession + (firmName ? ` (${firmName})` : '');
   const salary = `з/п ${currency} rub`;
+
+  const handleFavoriteChange = () => {
+    dispatch(isFavorite ? removeFavorite(id) : addFavorite(id));
+  };
 
   return (
     <Flex
@@ -62,7 +67,7 @@ export const VacancyItem: FC<Props> = ({ data, isFavorite, handleChange }) => {
       gap={'0.75em'}
       className={classes.vacancy}
     >
-      <ActionIcon onClick={handleChange}>
+      <ActionIcon onClick={handleFavoriteChange}>
         {isFavorite ? <IconStarFilled /> : <IconStar />}
       </ActionIcon>
       <Title fw={600} className={classes.title}>
