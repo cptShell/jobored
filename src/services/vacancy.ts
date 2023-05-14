@@ -15,6 +15,11 @@ type ObjectRes = {
   objects: Array<VacancyRes>;
 };
 
+const headers = {
+  'x-api-app-id': xAppId,
+  'x-secret-key': secretKey,
+};
+
 export class VacancyApi {
   #axiosInstance: Axios;
 
@@ -26,10 +31,6 @@ export class VacancyApi {
 
   async getCatalogues(): Promise<ApiResponse<Array<Catalogue> | null>> {
     try {
-      const headers = {
-        'x-api-app-id': xAppId,
-        'x-secret-key': secretKey,
-      };
       let token = storage.getItem(StorageKey.TOKEN);
 
       if (!token) {
@@ -70,10 +71,6 @@ export class VacancyApi {
     payload: Partial<GetVacanciesDTO>
   ): Promise<ApiResponse<Array<Vacancy> | null>> {
     try {
-      const headers = {
-        'x-api-app-id': xAppId,
-        'x-secret-key': secretKey,
-      };
       let token = storage.getItem(StorageKey.TOKEN);
 
       if (!token) {

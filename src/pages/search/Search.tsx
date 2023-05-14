@@ -51,10 +51,8 @@ export const SearchPage: FC = () => {
   useEffect(() => {
     const loadVacancies = async () => {
       setLoading(true);
-      const { data } = await vacancyApi.getVacancies({
-        ...filter,
-        keyword: query,
-      } as Partial<GetVacanciesDTO>);
+      const payload = { ...filter, keyword: query } as Partial<GetVacanciesDTO>;
+      const { data } = await vacancyApi.getVacancies(payload);
       setLoading(false);
       setVacancies(data || []);
     };

@@ -10,10 +10,12 @@ import {
 } from '@mantine/core';
 import { IconChevronDown, IconX } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
-import { catalogues } from '../../../../common/constants/constants';
+import {
+  catalogues,
+  initialFilter,
+} from '../../../../common/constants/constants';
 import { Filter } from '../../../../common/types/filter';
 import { Catalogue } from '../../../../common/types/catalogue';
-import { get } from '../../get';
 
 const useStyles = createStyles(({ colors }) => ({
   filter_wrapper: {
@@ -73,7 +75,10 @@ export const FilterBar: FC<Props> = ({ handleChange, filter }) => {
     return { label: value, value };
   });
 
-  const handleReset = () => form.reset();
+  const handleReset = () => {
+    form.reset();
+    handleChange(initialFilter);
+  };
   const handleSubmit = (values: Filter) => {
     const parsedData = JSON.parse(String(values.catalogues)) as Catalogue;
     const resultFilter = { ...values, catalogues: parsedData.key };

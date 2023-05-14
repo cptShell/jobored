@@ -2,9 +2,11 @@ import { FC, useEffect, useState } from 'react';
 import { useAppSelector } from '../../store/hook';
 import { vacancies as mockVacancies } from '../../common/mock/mock';
 import { VacancyList } from '../search/components/components';
-import { Container, Flex, Loader } from '@mantine/core';
+import { Button, Container, Flex, Loader } from '@mantine/core';
 import { NothingPlaceholder } from '../../components/components';
 import { Vacancy } from '../../common/types/types';
+import { storage, vacancyApi } from '../../services/services';
+import { StorageKey } from '../../common/enums/enums';
 
 export const FavoritePage: FC = () => {
   const { favorites } = useAppSelector((state) => state.favorites);
@@ -12,15 +14,29 @@ export const FavoritePage: FC = () => {
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!favorites.length) return;
-    setLoading(true);
-    setTimeout(() => {
-      const favoriteVacancies = mockVacancies.filter(({ id }) => {
-        return favorites.includes(id);
-      });
+    const loadFavors = async () => {
+      setLoading(true);
+      const storageData = storage.getItem(StorageKey.FAVORITES);
+      if (!storageData) {
+        storage.setItem(StorageKey.FAVORITES, JSON.stringify([]));
+        loadFavors();
+        return;
+      }
+
+      const ids = JSON.parse(storageData) as Array<number>;
+
+      if (!ids.length) {
+        setLoading(false);
+        setVacancies([]);
+        return;
+      }
+
+      const { data } = await vacancyApi.getVacancies({ ids });
+
+      setVacancies(data || []);
       setLoading(false);
-      setVacancies(favoriteVacancies);
-    }, 3000);
+    };
+    loadFavors();
   }, [favorites]);
 
   return (
