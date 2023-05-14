@@ -1,9 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import { useAppSelector } from '../../store/hook';
-import { Vacancy, vacancies as mockVacancies } from '../../common/common';
+import { vacancies as mockVacancies } from '../../common/mock/mock';
 import { VacancyList } from '../search/components/components';
 import { Container, Flex, Loader } from '@mantine/core';
 import { NothingPlaceholder } from '../../components/components';
+import { Vacancy } from '../../common/types/types';
 
 export const FavoritePage: FC = () => {
   const { favorites } = useAppSelector((state) => state.favorites);

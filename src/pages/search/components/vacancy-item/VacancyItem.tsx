@@ -12,6 +12,7 @@ import { IconMapPin, IconStar } from '@tabler/icons-react';
 import { useAppDispatch, useAppSelector } from '../../../../store/hook';
 import { addFavorite, removeFavorite } from '../../../../store/favoriteSlice';
 import { IconStarFilled } from '../../../../assets/icon-star';
+import { Vacancy } from '../../../../common/types/types';
 
 const useStyles = createStyles(({ colors }) => ({
   vacancy: {
@@ -33,17 +34,6 @@ const useStyles = createStyles(({ colors }) => ({
     lineHeight: '20px',
   },
 }));
-
-type Vacancy = {
-  id: string;
-  profession: string;
-  firmName: string;
-  town: string;
-  workType: string;
-  paymentTo: string;
-  paymentFrom: string;
-  currency: string;
-};
 
 type Props = {
   data: Vacancy;

@@ -8,11 +8,13 @@ import {
   Flex,
   Loader,
 } from '@mantine/core';
-import { Vacancy, vacancies as mockVacancies } from '../../common/common';
 import { FilterBar, VacancyList } from './components/components';
 import { IconSearch } from '@tabler/icons-react';
-import { get } from './get';
 import { NothingPlaceholder } from '../../components/components';
+import { Filter, GetVacanciesDTO, Vacancy } from '../../common/types/types';
+import { vacancyApi } from '../../services/services';
+import { useInputState } from '@mantine/hooks';
+import { initialFilter } from '../../common/constants/constants';
 
 const useStyles = createStyles(({ colors }) => ({
   search_wrapper: {
@@ -36,16 +38,28 @@ export const SearchPage: FC = () => {
   const { classes } = useStyles();
   const [isLoading, setLoading] = useState(false);
   const [vacancies, setVacancies] = useState<Array<Vacancy>>([]);
+  const [filter, setFilter] = useState<Filter>(initialFilter);
+  const [query, setQuery] = useInputState('');
+
+  const handleFilter = (filter: Filter) => {
+    setFilter(filter);
+  };
+  const handleQuery = () => {
+    setFilter({ ...filter });
+  };
 
   useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setVacancies(mockVacancies);
+    const loadVacancies = async () => {
+      setLoading(true);
+      const { data } = await vacancyApi.getVacancies({
+        ...filter,
+        keyword: query,
+      } as Partial<GetVacanciesDTO>);
       setLoading(false);
-    }, 3000);
-  }, []);
-
-  get();
+      setVacancies(data || []);
+    };
+    loadVacancies();
+  }, [filter]);
 
   return (
     <Container w={'100%'} p={0} className={classes.search_wrapper}>
@@ -55,7 +69,7 @@ export const SearchPage: FC = () => {
         gap={em('28px')}
         className={classes.search_container}
       >
-        <FilterBar />
+        <FilterBar handleChange={handleFilter} filter={filter} />
         <Container p={0} m={0} w={'100%'}>
           <Flex align={'center'} direction={'column'} gap={'0.5em'} h={'100%'}>
             <TextInput
@@ -64,16 +78,18 @@ export const SearchPage: FC = () => {
               icon={<IconSearch size="1.1rem" stroke={1.5} />}
               radius={'0.5em'}
               placeholder="Введите название вакансии"
+              onChange={setQuery}
               rightSection={
-                <Button size="xs" radius={'0.5em'}>
+                <Button onClick={handleQuery} size="xs" radius={'0.5em'}>
                   Поиск
                 </Button>
               }
+              value={query}
               rightSectionWidth={85}
             />
             {isLoading ? (
               <Flex justify={'center'} direction={'column'} h={'100%'}>
-                <Loader size="120" />
+                <Loader size={120} />
               </Flex>
             ) : vacancies.length ? (
               <VacancyList items={vacancies} />

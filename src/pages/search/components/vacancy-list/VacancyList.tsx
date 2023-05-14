@@ -1,17 +1,7 @@
 import { FC, useState } from 'react';
 import { Pagination } from '@mantine/core';
 import { VacancyItem } from '../components';
-
-type Vacancy = {
-  id: string;
-  profession: string;
-  firmName: string;
-  town: string;
-  workType: string;
-  paymentTo: string;
-  paymentFrom: string;
-  currency: string;
-};
+import { Vacancy } from '../../../../common/types/types';
 
 type Props = {
   items: Array<Vacancy>;

@@ -1,4 +1,5 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   createStyles,
   Header,
@@ -8,7 +9,6 @@ import {
   Image,
   em,
 } from '@mantine/core';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import logo from '~/assets/logo.svg';
 
 const useStyles = createStyles(

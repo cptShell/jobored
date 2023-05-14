@@ -10,6 +10,10 @@ import {
 } from '@mantine/core';
 import { IconChevronDown, IconX } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
+import { catalogues } from '../../../../common/constants/constants';
+import { Filter } from '../../../../common/types/filter';
+import { Catalogue } from '../../../../common/types/catalogue';
+import { get } from '../../get';
 
 const useStyles = createStyles(({ colors }) => ({
   filter_wrapper: {
@@ -53,14 +57,15 @@ const useStyles = createStyles(({ colors }) => ({
   filter_accept: {},
 }));
 
-export const FilterBar: FC = () => {
+type Props = {
+  handleChange: (filter: Filter) => void;
+  filter: Filter;
+};
+
+export const FilterBar: FC<Props> = ({ handleChange, filter }) => {
   const { classes } = useStyles();
   const form = useForm({
-    initialValues: {
-      job: '',
-      from: '',
-      to: '',
-    },
+    initialValues: filter,
   });
 
   const salaryData = new Array(20).fill(null).map((_, index) => {
@@ -69,11 +74,15 @@ export const FilterBar: FC = () => {
   });
 
   const handleReset = () => form.reset();
-
+  const handleSubmit = (values: Filter) => {
+    const parsedData = JSON.parse(String(values.catalogues)) as Catalogue;
+    const resultFilter = { ...values, catalogues: parsedData.key };
+    handleChange(resultFilter);
+  };
   return (
     <form
       className={classes.filter_container}
-      onSubmit={form.onSubmit((values) => console.log(values))}
+      onSubmit={form.onSubmit(handleSubmit)}
     >
       <Container p={0} m={0} className={classes.filter_heading}>
         <Title fz={20} lh={'20px'}>
@@ -89,19 +98,14 @@ export const FilterBar: FC = () => {
           radius={em('8px')}
           label={'Отрасль'}
           placeholder={'Выберите отрасль'}
-          data={[
-            { label: 'Электроэнергетика', value: 'Электроэнергетика' },
-            {
-              label: 'Топливная промышленность',
-              value: 'Топливная промышленность',
-            },
-            { label: 'Чёрная металлургия', value: 'Чёрная металлургия' },
-            { label: 'Цветная металлургия', value: 'Цветная металлургия' },
-          ]}
+          data={catalogues.map((catalogue) => {
+            const { title_trimmed } = catalogue;
+            return { label: title_trimmed, value: JSON.stringify(catalogue) };
+          })}
           rightSection={<IconChevronDown size="1.6rem" color="grey" />}
           rightSectionWidth={40}
           styles={{ rightSection: { pointerEvents: 'none' } }}
-          {...form.getInputProps('job')}
+          {...form.getInputProps('catalogues')}
         />
         <Container p={0} m={0}>
           <Select
@@ -110,14 +114,14 @@ export const FilterBar: FC = () => {
             placeholder={'От'}
             data={salaryData}
             mb={'10px'}
-            {...form.getInputProps('from')}
+            {...form.getInputProps('payment_from')}
           />
           <Select
             radius={em('8px')}
             className={classes.bordered}
             placeholder={'До'}
             data={salaryData}
-            {...form.getInputProps('to')}
+            {...form.getInputProps('payment_to')}
           />
         </Container>
         <Button type="submit" className={classes.bordered}>

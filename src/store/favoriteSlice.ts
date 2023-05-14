@@ -1,29 +1,36 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { SliceName, StorageKey } from '../common/enums/enums';
 
 type FavoritesState = {
-  favorites: Array<string>;
+  favorites: Array<number>;
 };
 
 const favorites = JSON.parse(
-  localStorage.getItem('user-favorites') || '[]'
-) as Array<string>;
+  localStorage.getItem(StorageKey.FAVORITES) || '[]'
+) as Array<number>;
 const initialState: FavoritesState = { favorites };
 
 const favoritesSlice = createSlice({
-  name: 'favorites',
+  name: SliceName.FAVORITES,
   initialState,
   reducers: {
-    addFavorite(state, action: PayloadAction<string>) {
+    addFavorite(state, action: PayloadAction<number>) {
       state.favorites = [...state.favorites].concat(action.payload);
-      localStorage.setItem('user-favorites', JSON.stringify(state.favorites));
+      localStorage.setItem(
+        StorageKey.FAVORITES,
+        JSON.stringify(state.favorites)
+      );
     },
-    removeFavorite(state, action: PayloadAction<string>) {
+    removeFavorite(state, action: PayloadAction<number>) {
       const targetIndex = state.favorites.indexOf(action.payload);
       if (targetIndex !== -1) {
         const newFavorites = [...state.favorites];
         newFavorites.splice(targetIndex, 1);
         state.favorites = newFavorites;
-        localStorage.setItem('user-favorites', JSON.stringify(state.favorites));
+        localStorage.setItem(
+          StorageKey.FAVORITES,
+          JSON.stringify(state.favorites)
+        );
       }
     },
   },
