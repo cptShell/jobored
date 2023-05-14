@@ -22,7 +22,7 @@ const router = createBrowserRouter([
       { path: 'search', element: <SearchPage /> },
       { path: 'vacancy', element: <VacancyPage /> },
       { path: 'favorite', element: <FavoritePage /> },
-      { path: '*', element: <h1>Unindentifed Page</h1> },
+      { path: '*', element: <ErrorPage /> },
     ],
   },
 ]);
