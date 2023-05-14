@@ -6,6 +6,7 @@ import {
   Divider,
   em,
   ActionIcon,
+  Container,
 } from '@mantine/core';
 import { FC } from 'react';
 import { IconMapPin, IconStar } from '@tabler/icons-react';
@@ -13,6 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hook';
 import { addFavorite, removeFavorite } from '../../../../store/favoriteSlice';
 import { IconStarFilled } from '../../../../assets/icon-star';
 import { Vacancy } from '../../../../common/types/types';
+import { PointFilled } from '../../../../assets/point-filled';
 
 const useStyles = createStyles(({ colors }) => ({
   vacancy: {
@@ -40,14 +42,33 @@ type Props = {
 };
 
 export const VacancyItem: FC<Props> = ({ data }) => {
-  const { profession, firmName, town, workType, currency, id } = data;
+  const {
+    profession,
+    firmName,
+    town,
+    workType,
+    currency,
+    id,
+    paymentTo,
+    paymentFrom,
+  } = data;
   const { favorites } = useAppSelector((state) => state.favorites);
   const dispatch = useAppDispatch();
   const { classes } = useStyles();
 
   const isFavorite = favorites.includes(id);
   const titleText = profession + (firmName ? ` (${firmName})` : '');
-  const salary = `з/п ${currency} rub`;
+  let salary: string | null;
+
+  if (paymentTo && paymentFrom) {
+    salary = `з/п ${paymentFrom}-${paymentTo}`;
+  } else if (paymentFrom && !paymentFrom) {
+    salary = `з/п от ${paymentFrom}`;
+  } else if (!paymentFrom && paymentTo) {
+    salary = `з/п до ${paymentTo}`;
+  } else {
+    salary = null;
+  }
 
   const handleFavoriteChange = () => {
     dispatch(isFavorite ? removeFavorite(id) : addFavorite(id));
@@ -70,14 +91,21 @@ export const VacancyItem: FC<Props> = ({ data }) => {
         {isFavorite ? <IconStarFilled /> : <IconStar color="#ACADB9" />}
       </ActionIcon>
 
-      <Title fw={600} className={classes.title}>
+      <Title fw={600} className={classes.title} pr={em('20px')}>
         {titleText}
       </Title>
-      <Flex>
-        <Text fw={600} className={classes.description}>
-          {salary}
-        </Text>
-        <Divider w={10} />
+      <Flex gap={'0.75em'}>
+        {salary && (
+          <>
+            <Text fw={600} className={classes.description}>
+              {salary}
+            </Text>
+            <Text lh={em('20px')} color="#7B7C88">
+              •
+            </Text>
+          </>
+        )}
+
         <Text className={classes.description}>{workType}</Text>
       </Flex>
       <Flex className={classes.description} gap={'0.5em'}>
