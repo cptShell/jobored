@@ -33,10 +33,16 @@ const useStyles = createStyles(({ colors }) => ({
 
 export const SearchPage: FC = () => {
   const { classes } = useStyles();
+  const [isLoading, setLoading] = useState(false);
   const [vacancies, setVacancies] = useState<Array<Vacancy>>([]);
+  console.log(111);
   useEffect(() => {
-    setTimeout(() => setVacancies(mockVacancies), 3000);
-  });
+    setLoading(true);
+    setTimeout(() => {
+      setVacancies(mockVacancies);
+      setLoading(false);
+    }, 3000);
+  }, []);
   const searchButton = (
     <Button size="xs" radius={'0.5em'}>
       Поиск
@@ -64,7 +70,7 @@ export const SearchPage: FC = () => {
               rightSection={searchButton}
               rightSectionWidth={85}
             />
-            {vacancies.length ? (
+            {!isLoading ? (
               <VacancyList items={vacancies} />
             ) : (
               <Flex justify={'center'} direction={'column'} h={'100%'}>

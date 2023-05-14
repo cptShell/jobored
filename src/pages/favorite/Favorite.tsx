@@ -3,6 +3,7 @@ import { useAppSelector } from '../../store/hook';
 import { Vacancy, vacancies as mockVacancies } from '../../common/common';
 import { VacancyList } from '../search/components/components';
 import { Container, Flex, Loader } from '@mantine/core';
+import { NothingPlaceholder } from '../../components/components';
 
 export const FavoritePage: FC = () => {
   const { favorites } = useAppSelector((state) => state.favorites);
@@ -13,7 +14,6 @@ export const FavoritePage: FC = () => {
     if (!favorites.length) return;
     setLoading(true);
     setTimeout(() => {
-      console.log('loaded');
       const favoriteVacancies = mockVacancies.filter(({ id }) => {
         return favorites.includes(id);
       });
@@ -21,7 +21,6 @@ export const FavoritePage: FC = () => {
       setVacancies(favoriteVacancies);
     }, 3000);
   }, [favorites]);
-  console.log(vacancies);
 
   return (
     <Container p={40} m={0} w={'100%'} maw={'100%'}>
@@ -31,7 +30,10 @@ export const FavoritePage: FC = () => {
             <Loader size="120" />
           </Flex>
         ) : !favorites.length ? (
-          <div>None</div>
+          <NothingPlaceholder
+            message="Упс, здесь еще ничего нет!"
+            withRedirect={true}
+          />
         ) : (
           <VacancyList items={vacancies} />
         )}

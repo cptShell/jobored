@@ -6,7 +6,6 @@ import {
   Divider,
   em,
   ActionIcon,
-  Container,
 } from '@mantine/core';
 import { FC } from 'react';
 import { IconMapPin, IconStar } from '@tabler/icons-react';
@@ -53,15 +52,17 @@ type Props = {
 export const VacancyItem: FC<Props> = ({ data }) => {
   const { profession, firmName, town, workType, currency, id } = data;
   const { favorites } = useAppSelector((state) => state.favorites);
-  const isFavorite = favorites.includes(id);
   const dispatch = useAppDispatch();
   const { classes } = useStyles();
+
+  const isFavorite = favorites.includes(id);
   const titleText = profession + (firmName ? ` (${firmName})` : '');
   const salary = `з/п ${currency} rub`;
+
   const handleFavoriteChange = () => {
     dispatch(isFavorite ? removeFavorite(id) : addFavorite(id));
   };
-  console.log('#5E96FC', '#ACADB9');
+
   return (
     <Flex
       p={'1.5em'}

@@ -4,8 +4,9 @@ type FavoritesState = {
   favorites: Array<string>;
 };
 
-const favorites =
-  (localStorage.getItem('user-favorites') as unknown as Array<string>) || [];
+const favorites = JSON.parse(
+  localStorage.getItem('user-favorites') || '[]'
+) as Array<string>;
 const initialState: FavoritesState = { favorites };
 
 const favoritesSlice = createSlice({
