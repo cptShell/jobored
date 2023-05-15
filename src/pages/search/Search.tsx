@@ -90,7 +90,7 @@ export const SearchPage: FC = () => {
               rightSectionWidth={85}
             />
             {isLoading ? (
-              <Flex justify={'center'} direction={'column'} h={'100%'}>
+              <Flex justify={'center'} direction={'column'} h={'100%'} mt={100}>
                 <Loader size={120} />
               </Flex>
             ) : vacancies.length ? (

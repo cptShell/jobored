@@ -6,8 +6,11 @@ import { NothingPlaceholder } from '../../components/components';
 import { Vacancy } from '../../common/types/types';
 import { storage, vacancyApi } from '../../services/services';
 import { StorageKey } from '../../common/enums/enums';
+import { useMediaQuery } from '@mantine/hooks';
 
 export const FavoritePage: FC = () => {
+  const matchesMobile = useMediaQuery('(max-width: 420px)');
+  const matchesTablet = useMediaQuery('(max-width: 800px)');
   const { favorites } = useAppSelector((state) => state.favorites);
   const [vacancies, setVacancies] = useState<Array<Vacancy>>([]);
   const [isLoading, setLoading] = useState(false);
@@ -39,10 +42,15 @@ export const FavoritePage: FC = () => {
   }, [favorites]);
 
   return (
-    <Container p={40} m={0} w={'100%'} maw={'100%'}>
-      <Flex direction={'column'} align={'center'} gap={16}>
+    <Container
+      p={matchesMobile ? 10 : matchesTablet ? 20 : 40}
+      m={0}
+      w={'100%'}
+      maw={'100%'}
+    >
+      <Flex direction={'column'} align={'center'} gap={matchesTablet ? 8 : 16}>
         {isLoading ? (
-          <Flex justify={'center'} direction={'column'} h={'100%'}>
+          <Flex justify={'center'} direction={'column'} mt={200} h={'100%'}>
             <Loader size="120" />
           </Flex>
         ) : !favorites.length ? (

@@ -35,6 +35,11 @@ const useStyles = createStyles(
       fontSize: em(`${isFull ? 20 : 16}px`),
       lineHeight: '20px',
     },
+
+    town: {
+      fontSize: em(`${isFull && matchesMobile ? 12 : isFull ? 20 : 16}px`),
+      lineHeight: '20px',
+    },
   })
 );
 
@@ -96,6 +101,7 @@ export const VacancyItem: FC<Props> = ({ data, isFull }) => {
       onClick={handleNavigate}
     >
       <ActionIcon
+        size={10}
         onClick={blockBubbling}
         pos={'absolute'}
         top={paddingValue}
@@ -133,7 +139,7 @@ export const VacancyItem: FC<Props> = ({ data, isFull }) => {
       </Flex>
       <Flex className={classes.description} gap={'0.5em'}>
         <IconMapPin color={'#ACADB9'} size={20} />
-        <Text className={classes.description}>{town}</Text>
+        <Text className={classes.town}>{town}</Text>
       </Flex>
     </Flex>
   );

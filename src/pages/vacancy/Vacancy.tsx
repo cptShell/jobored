@@ -4,6 +4,7 @@ import { vacancyApi } from '../../services/services';
 import { Vacancy } from '../../common/types/types';
 import { Flex, createStyles, em } from '@mantine/core';
 import { VacancyItem } from '../search/components/components';
+import { useMediaQuery } from '@mantine/hooks';
 
 const useStyles = createStyles(({ colors }) => ({
   description_container: {
@@ -39,6 +40,8 @@ const useStyles = createStyles(({ colors }) => ({
 }));
 
 export const VacancyPage: FC = () => {
+  const matchesMobile = useMediaQuery('(max-width: 420px)');
+  const matchesTablet = useMediaQuery('(max-width: 800px)');
   const { classes } = useStyles();
   const { pathname } = useLocation();
   const [vacancy, setVacancy] = useState<Vacancy | null>(null);
@@ -56,10 +59,10 @@ export const VacancyPage: FC = () => {
 
   return (
     <Flex
-      justify={'center'}
-      mt={40}
+      align={'center'}
+      mt={matchesMobile ? 10 : matchesTablet ? 20 : 40}
       w={'100%'}
-      gap={em('20px')}
+      gap={em(`${matchesMobile ? 10 : 20}px`)}
       direction={'column'}
     >
       {vacancy && (
@@ -69,7 +72,7 @@ export const VacancyPage: FC = () => {
             direction={'column'}
             className={classes.description_container}
             dangerouslySetInnerHTML={{
-              __html: vacancy.vacancyRichText.replaceAll('<br>', ''),
+              __html: vacancy.vacancyRichText,
             }}
           />
         </>
