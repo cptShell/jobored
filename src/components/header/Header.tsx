@@ -13,10 +13,6 @@ import {
 import logo from '~/assets/logo.svg';
 import { useMediaQuery } from '@mantine/hooks';
 
-type MatchProps = {
-  matchesTablet: boolean;
-};
-
 const useStyles = createStyles(
   ({ colorScheme, colors, radius, fontSizes, fn, primaryColor }) => ({
     wrapper: {

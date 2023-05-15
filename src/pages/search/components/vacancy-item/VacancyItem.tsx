@@ -67,6 +67,7 @@ export const VacancyItem: FC<Props> = ({ data, isFull }) => {
 
   const isFavorite = favorites.includes(id);
   const titleText = profession + (firmName ? ` (${firmName})` : '');
+  const paddingValue = matchesMobile ? '0.75em' : '1.5em';
   let salary: string | null;
 
   if (paymentTo && paymentFrom) {
@@ -89,10 +90,9 @@ export const VacancyItem: FC<Props> = ({ data, isFull }) => {
     navigate(`/vacancy/${id}`);
   };
 
-  const paddingValue = matchesMobile ? '0.75em' : '1.5em';
-
   return (
     <Flex
+      data-elem={`$vacancy-${id}`}
       p={paddingValue}
       direction={'column'}
       gap={'0.75em'}
@@ -101,6 +101,7 @@ export const VacancyItem: FC<Props> = ({ data, isFull }) => {
       onClick={handleNavigate}
     >
       <ActionIcon
+        data-elem={`vacancy-${id}-shortlist-button`}
         size={10}
         onClick={blockBubbling}
         pos={'absolute'}

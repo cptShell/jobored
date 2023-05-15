@@ -15,6 +15,7 @@ import { useForm } from '@mantine/form';
 import {
   catalogues,
   initialFilter,
+  salaryData,
 } from '../../../../common/constants/constants';
 import { Filter } from '../../../../common/types/filter';
 import { Catalogue } from '../../../../common/types/catalogue';
@@ -83,11 +84,6 @@ export const FilterBar: FC<Props> = ({ handleChange, filter }) => {
     initialValues: filter,
   });
 
-  const salaryData = new Array(20).fill(null).map((_, index) => {
-    const value = String((index + 3) * 10000);
-    return { label: value, value };
-  });
-
   const handleReset = () => {
     form.reset();
     handleChange(initialFilter);
@@ -114,6 +110,7 @@ export const FilterBar: FC<Props> = ({ handleChange, filter }) => {
       </Container>
       <Flex p={0} m={0} className={classes.filter_content} gap={10}>
         <Select
+          data-elem={'industry-select'}
           radius={em('8px')}
           label={'Отрасль'}
           placeholder={'Выберите отрасль'}
@@ -134,6 +131,7 @@ export const FilterBar: FC<Props> = ({ handleChange, filter }) => {
           gap={matchesTablet ? em('10px') : 0}
         >
           <Select
+            data-elem={'salary-from-input'}
             radius={em('8px')}
             label={'Оклад'}
             placeholder={'От'}
@@ -143,6 +141,7 @@ export const FilterBar: FC<Props> = ({ handleChange, filter }) => {
             {...form.getInputProps('payment_from')}
           />
           <Select
+            data-elem={'salary-to-input'}
             radius={em('8px')}
             placeholder={'До'}
             data={salaryData}
@@ -150,7 +149,11 @@ export const FilterBar: FC<Props> = ({ handleChange, filter }) => {
             {...form.getInputProps('payment_to')}
           />
         </Flex>
-        <Button type="submit" className={classes.bordered}>
+        <Button
+          data-elem={'search-button'}
+          type="submit"
+          className={classes.bordered}
+        >
           Применить
         </Button>
       </Flex>

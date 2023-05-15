@@ -73,6 +73,7 @@ export const SearchPage: FC = () => {
         <Container p={0} m={0} w={'100%'}>
           <Flex align={'center'} direction={'column'} gap={'0.5em'} h={'100%'}>
             <TextInput
+              data-elem={'search-input'}
               pos={'sticky'}
               top={0}
               size="md"
@@ -82,7 +83,12 @@ export const SearchPage: FC = () => {
               placeholder="Введите название вакансии"
               onChange={setQuery}
               rightSection={
-                <Button onClick={handleQuery} size="xs" radius={'0.5em'}>
+                <Button
+                  data-elem={'search-button'}
+                  onClick={handleQuery}
+                  size="xs"
+                  radius={'0.5em'}
+                >
                   Поиск
                 </Button>
               }
