@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { vacancyApi } from '../../services/services';
 import { Vacancy } from '../../common/types/types';
-import { Flex, createStyles, em } from '@mantine/core';
+import { Flex, Loader, createStyles, em } from '@mantine/core';
 import { VacancyItem } from '../search/components/components';
 import { useMediaQuery } from '@mantine/hooks';
 
@@ -65,7 +65,7 @@ export const VacancyPage: FC = () => {
       gap={em(`${matchesMobile ? 10 : 20}px`)}
       direction={'column'}
     >
-      {vacancy && (
+      {vacancy ? (
         <>
           <VacancyItem isFull={true} data={vacancy} />
           <Flex
@@ -76,6 +76,10 @@ export const VacancyPage: FC = () => {
             }}
           />
         </>
+      ) : (
+        <Flex justify={'center'} direction={'column'} mt={200} h={'100%'}>
+          <Loader size="120" />
+        </Flex>
       )}
     </Flex>
   );

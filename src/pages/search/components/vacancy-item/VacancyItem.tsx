@@ -16,6 +16,7 @@ type StyleProps = {
 const useStyles = createStyles(
   ({ colors }, { isFull, matchesMobile }: StyleProps) => ({
     vacancy: {
+      cursor: 'pointer',
       border: `1px solid ${colors.grey200[0]}`,
       borderRadius: '0.5em',
       backgroundColor: 'white',

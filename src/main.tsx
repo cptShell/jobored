@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import {
   createBrowserRouter,
   Navigate,
-  redirect,
   RouterProvider,
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
