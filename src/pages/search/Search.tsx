@@ -13,7 +13,7 @@ import { IconSearch } from '@tabler/icons-react';
 import { NothingPlaceholder } from '../../components/components';
 import { Filter, GetVacanciesDTO, Vacancy } from '../../common/types/types';
 import { vacancyApi } from '../../services/services';
-import { useInputState } from '@mantine/hooks';
+import { useInputState, useMediaQuery } from '@mantine/hooks';
 import { initialFilter } from '../../common/constants/constants';
 
 const useStyles = createStyles(({ colors }) => ({
@@ -35,6 +35,8 @@ const useStyles = createStyles(({ colors }) => ({
 }));
 
 export const SearchPage: FC = () => {
+  const matches = useMediaQuery('(min-width: 56.25em)');
+  console.log(matches);
   const { classes } = useStyles();
   const [isLoading, setLoading] = useState(false);
   const [vacancies, setVacancies] = useState<Array<Vacancy>>([]);

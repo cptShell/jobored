@@ -100,6 +100,7 @@ export class VacancyApi {
           town,
           currency,
           type_of_work,
+          vacancyRichText,
         }) => {
           return {
             id,
@@ -110,6 +111,7 @@ export class VacancyApi {
             town: town.title,
             currency,
             workType: type_of_work.title,
+            vacancyRichText,
           };
         }
       );

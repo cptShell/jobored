@@ -18,7 +18,7 @@ export const VacancyList: FC<Props> = ({ items }) => {
   return (
     <>
       {...onPageVacancies.map((data) => {
-        return <VacancyItem data={data} />;
+        return <VacancyItem isFull={false} data={data} />;
       })}
       <Pagination
         mt={'1.5em'}

@@ -8,7 +8,7 @@ export const ErrorPage: FC = () => {
   const handleRedirect = () => navigate('/search');
 
   return (
-    <Flex mt={120} align={'center'} direction={'column'} gap={24}>
+    <Flex mt={120} align={'center'} direction={'column'} gap={24} w={'100%'}>
       <IconBug color="#5E96FC" size={230} />
       <Title size={24}>Упс, что-то пошло не так</Title>
       <Button variant="light" onClick={handleRedirect}>

@@ -1,4 +1,4 @@
-export type { Vacancy, GetVacanciesDTO, VacancyRes } from './vacancy';
-export type { ApiError, ApiResponse } from './api';
-export type { Catalogue } from './catalogue';
-export type { Filter } from './filter';
+export type * from './vacancy';
+export type * from './api';
+export type * from './catalogue';
+export type * from './filter';

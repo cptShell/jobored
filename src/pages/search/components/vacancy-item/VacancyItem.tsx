@@ -1,22 +1,17 @@
-import {
-  Title,
-  Text,
-  Flex,
-  createStyles,
-  Divider,
-  em,
-  ActionIcon,
-  Container,
-} from '@mantine/core';
-import { FC } from 'react';
+import { FC, MouseEventHandler } from 'react';
+import { Title, Text, Flex, createStyles, em, ActionIcon } from '@mantine/core';
 import { IconMapPin, IconStar } from '@tabler/icons-react';
 import { useAppDispatch, useAppSelector } from '../../../../store/hook';
 import { addFavorite, removeFavorite } from '../../../../store/favoriteSlice';
 import { IconStarFilled } from '../../../../assets/icon-star';
 import { Vacancy } from '../../../../common/types/types';
-import { PointFilled } from '../../../../assets/point-filled';
+import { useNavigate } from 'react-router-dom';
 
-const useStyles = createStyles(({ colors }) => ({
+type StyleProps = {
+  isFull: boolean;
+};
+
+const useStyles = createStyles(({ colors }, { isFull }: StyleProps) => ({
   vacancy: {
     border: `1px solid ${colors.grey200[0]}`,
     borderRadius: '0.5em',
@@ -26,22 +21,24 @@ const useStyles = createStyles(({ colors }) => ({
   },
 
   title: {
-    color: '#5E96FC',
+    color: !isFull ? '#5E96FC' : 'inherit',
     lineHeight: '1.2em',
-    fontSize: em('20px'),
+    fontSize: em(isFull ? '24px' : '20px'),
+    fontWeight: isFull ? 700 : 600,
   },
 
   description: {
-    fontSize: '16px',
+    fontSize: isFull ? '20px' : '16px',
     lineHeight: '20px',
   },
 }));
 
 type Props = {
   data: Vacancy;
+  isFull: boolean;
 };
 
-export const VacancyItem: FC<Props> = ({ data }) => {
+export const VacancyItem: FC<Props> = ({ data, isFull }) => {
   const {
     profession,
     firmName,
@@ -52,9 +49,10 @@ export const VacancyItem: FC<Props> = ({ data }) => {
     paymentTo,
     paymentFrom,
   } = data;
-  const { favorites } = useAppSelector((state) => state.favorites);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { classes } = useStyles();
+  const { favorites } = useAppSelector((state) => state.favorites);
+  const { classes } = useStyles({ isFull });
 
   const isFavorite = favorites.includes(id);
   const titleText = profession + (firmName ? ` (${firmName})` : '');
@@ -73,6 +71,12 @@ export const VacancyItem: FC<Props> = ({ data }) => {
   const handleFavoriteChange = () => {
     dispatch(isFavorite ? removeFavorite(id) : addFavorite(id));
   };
+  const blockBubbling: MouseEventHandler<HTMLButtonElement> = (e): void => {
+    e.stopPropagation();
+  };
+  const handleNavigate = () => {
+    navigate(`/vacancy/${id}`);
+  };
 
   return (
     <Flex
@@ -81,24 +85,27 @@ export const VacancyItem: FC<Props> = ({ data }) => {
       gap={'0.75em'}
       className={classes.vacancy}
       pos={'relative'}
+      onClick={handleNavigate}
     >
       <ActionIcon
-        onClick={handleFavoriteChange}
+        onClick={blockBubbling}
         pos={'absolute'}
         top={'1.5em'}
         right={'1.5em'}
       >
-        {isFavorite ? <IconStarFilled /> : <IconStar color="#ACADB9" />}
+        <div onClick={handleFavoriteChange}>
+          {isFavorite ? <IconStarFilled /> : <IconStar color="#ACADB9" />}
+        </div>
       </ActionIcon>
 
-      <Title fw={600} className={classes.title} pr={em('20px')}>
+      <Title className={classes.title} pr={em('20px')}>
         {titleText}
       </Title>
       <Flex gap={'0.75em'}>
         {salary && (
           <>
-            <Text fw={600} className={classes.description}>
-              {salary}
+            <Text fw={isFull ? 700 : 600} className={classes.description}>
+              {`${salary} ${currency}`}
             </Text>
             <Text lh={em('20px')} color="#7B7C88">
               •

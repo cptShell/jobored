@@ -1,8 +1,7 @@
 import { FC, useEffect, useState } from 'react';
+import { Container, Flex, Loader } from '@mantine/core';
 import { useAppSelector } from '../../store/hook';
-import { vacancies as mockVacancies } from '../../common/mock/mock';
 import { VacancyList } from '../search/components/components';
-import { Button, Container, Flex, Loader } from '@mantine/core';
 import { NothingPlaceholder } from '../../components/components';
 import { Vacancy } from '../../common/types/types';
 import { storage, vacancyApi } from '../../services/services';

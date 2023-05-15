@@ -7,6 +7,7 @@ export type Vacancy = {
   paymentTo: number;
   paymentFrom: number;
   currency: string;
+  vacancyRichText: string;
 };
 
 export type VacancyRes = {
@@ -22,6 +23,7 @@ export type VacancyRes = {
   payment_to: number;
   payment_from: number;
   currency: string;
+  vacancyRichText: string;
 };
 
 export type GetVacanciesDTO = {

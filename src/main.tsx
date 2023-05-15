@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { MantineProvider } from '@mantine/core';
 import {
   VacancyPage,
@@ -8,9 +9,9 @@ import {
   ErrorPage,
   FavoritePage,
 } from './pages/pages.tsx';
-import './index.css';
 import { App } from './App.tsx';
-import { Provider } from 'react-redux';
+import './index.css';
+
 import store from './store/store.ts';
 
 const router = createBrowserRouter([
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { path: 'search', element: <SearchPage /> },
-      { path: 'vacancy', element: <VacancyPage /> },
+      { path: 'vacancy/:id', element: <VacancyPage /> },
       { path: 'favorite', element: <FavoritePage /> },
       { path: '*', element: <ErrorPage /> },
     ],
@@ -34,6 +35,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         withGlobalStyles
         withNormalizeCSS
         theme={{
+          fontFamily: 'Inter, sans-serif',
           colors: {
             mainBg: ['#F7F7F8'],
             mainBlack: ['#232134'],
