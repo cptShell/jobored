@@ -21,7 +21,7 @@ export const App: FC = () => {
     <>
       <AppHeader
         links={[
-          { link: '/search', label: 'Поиск Вакансий' },
+          { link: '/', label: 'Поиск Вакансий' },
           { link: '/favorite', label: 'Избранное' },
         ]}
       />
