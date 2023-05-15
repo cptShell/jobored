@@ -8,8 +8,14 @@ import {
   rem,
   Image,
   em,
+  Text,
 } from '@mantine/core';
 import logo from '~/assets/logo.svg';
+import { useMediaQuery } from '@mantine/hooks';
+
+type MatchProps = {
+  matchesTablet: boolean;
+};
 
 const useStyles = createStyles(
   ({ colorScheme, colors, radius, fontSizes, fn, primaryColor }) => ({
@@ -17,6 +23,8 @@ const useStyles = createStyles(
       display: 'flex',
       justifyContent: 'center',
       width: '100%',
+      position: 'sticky',
+      top: 0,
     },
 
     header: {
@@ -44,7 +52,16 @@ const useStyles = createStyles(
       display: 'flex',
       alignItems: 'center',
       height: '100%',
+      gap: '0.75em',
       left: 0,
+    },
+
+    logo_title: {
+      fontFamily: 'Poppins',
+      fontWeight: 600,
+      fontSize: '24px',
+      lineHeight: '36px',
+      letterSpacing: '-0.02em',
     },
 
     linkActive: {
@@ -59,6 +76,8 @@ type Link = { link: string; label: string };
 type Props = { links: Array<Link> };
 
 export const AppHeader: FC<Props> = ({ links }) => {
+  const matchesTablet = useMediaQuery('(max-width: 800px)');
+  const matchesMobile = useMediaQuery('(max-width: 450px)');
   const location = useLocation();
   const navigate = useNavigate();
   const { classes, cx } = useStyles();
@@ -79,13 +98,27 @@ export const AppHeader: FC<Props> = ({ links }) => {
     );
   });
 
+  const headerHeight = matchesMobile ? 40 : 60;
+
   return (
-    <Header height={60} mih={60} className={classes.wrapper}>
+    <Header
+      height={headerHeight}
+      mih={headerHeight}
+      className={classes.wrapper}
+    >
       <Container className={classes.header}>
         <Container className={classes.logo}>
-          <Image width={140} height={30} src={logo} alt="" />
+          <Image src={logo} alt="" />
+          <Text
+            display={matchesMobile ? 'none' : 'block'}
+            className={classes.logo_title}
+          >
+            Jobored
+          </Text>
         </Container>
-        <Group spacing={5}>{items}</Group>
+        <Group ml={matchesTablet ? 'auto' : 0} spacing={5}>
+          {items}
+        </Group>
       </Container>
     </Header>
   );

@@ -7,6 +7,8 @@ import {
   Title,
   createStyles,
   em,
+  Flex,
+  Box,
 } from '@mantine/core';
 import { IconChevronDown, IconX } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
@@ -16,48 +18,57 @@ import {
 } from '../../../../common/constants/constants';
 import { Filter } from '../../../../common/types/filter';
 import { Catalogue } from '../../../../common/types/catalogue';
+import { useMediaQuery } from '@mantine/hooks';
 
-const useStyles = createStyles(({ colors }) => ({
-  filter_wrapper: {
-    display: 'flex',
-    gap: em('28px'),
-  },
+type MatchProps = {
+  matchesTablet: boolean;
+  matchesMobile: boolean;
+};
 
-  filter_container: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '2em',
-    minWidth: em('315px'),
-    height: '100%',
-    padding: em('20px'),
-    backgroundColor: colors.mainWhite[0],
-    border: `1px solid ${colors.grey200[0]}`,
-    borderRadius: em('12px'),
-  },
+const useStyles = createStyles(
+  ({ colors }, { matchesTablet, matchesMobile }: MatchProps) => ({
+    filter_wrapper: {
+      display: 'flex',
+      gap: em('28px'),
+    },
 
-  filter_heading: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
+    filter_container: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: matchesTablet ? '0.5em' : '2em',
+      minWidth: em('315px'),
+      height: '100%',
+      padding: em(`${matchesMobile ? 12 : 20}px`),
+      backgroundColor: colors.mainWhite[0],
+      border: `1px solid ${colors.grey200[0]}`,
+      borderRadius: em('12px'),
+      fontSize: matchesMobile ? '0.7em' : '1em',
+    },
 
-  filter_content: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: em('20px'),
-  },
+    filter_heading: {
+      display: 'flex',
+      justifyContent: 'space-between',
+    },
 
-  filter_section: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.5em',
-  },
+    filter_content: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: em('20px'),
+    },
 
-  bordered: {
-    borderRadius: '0.5em',
-  },
+    filter_section: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.5em',
+    },
 
-  filter_accept: {},
-}));
+    bordered: {
+      borderRadius: '0.5em',
+    },
+
+    filter_accept: {},
+  })
+);
 
 type Props = {
   handleChange: (filter: Filter) => void;
@@ -65,7 +76,9 @@ type Props = {
 };
 
 export const FilterBar: FC<Props> = ({ handleChange, filter }) => {
-  const { classes } = useStyles();
+  const matchesMobile = useMediaQuery('(max-width: 420px)');
+  const matchesTablet = useMediaQuery('(max-width: 800px)');
+  const { classes } = useStyles({ matchesTablet, matchesMobile });
   const form = useForm({
     initialValues: filter,
   });
@@ -85,7 +98,8 @@ export const FilterBar: FC<Props> = ({ handleChange, filter }) => {
     handleChange(resultFilter);
   };
   return (
-    <form
+    <Box
+      component="form"
       className={classes.filter_container}
       onSubmit={form.onSubmit(handleSubmit)}
     >
@@ -98,7 +112,7 @@ export const FilterBar: FC<Props> = ({ handleChange, filter }) => {
           <IconX color="#ACADB9" height={em('16px')} width={em('20px')} />
         </Button>
       </Container>
-      <Container p={0} m={0} className={classes.filter_content}>
+      <Flex p={0} m={0} className={classes.filter_content} gap={10}>
         <Select
           radius={em('8px')}
           label={'Отрасль'}
@@ -112,27 +126,34 @@ export const FilterBar: FC<Props> = ({ handleChange, filter }) => {
           styles={{ rightSection: { pointerEvents: 'none' } }}
           {...form.getInputProps('catalogues')}
         />
-        <Container p={0} m={0}>
+        <Flex
+          p={0}
+          m={0}
+          direction={matchesTablet ? 'row' : 'column'}
+          align={matchesTablet ? 'end' : 'normal'}
+          gap={matchesTablet ? em('10px') : 0}
+        >
           <Select
             radius={em('8px')}
             label={'Оклад'}
             placeholder={'От'}
             data={salaryData}
-            mb={'10px'}
+            mb={matchesTablet ? 0 : '10px'}
+            w={matchesTablet ? '50%' : '100'}
             {...form.getInputProps('payment_from')}
           />
           <Select
             radius={em('8px')}
-            className={classes.bordered}
             placeholder={'До'}
             data={salaryData}
+            w={matchesTablet ? '50%' : '100'}
             {...form.getInputProps('payment_to')}
           />
-        </Container>
+        </Flex>
         <Button type="submit" className={classes.bordered}>
           Применить
         </Button>
-      </Container>
-    </form>
+      </Flex>
+    </Box>
   );
 };

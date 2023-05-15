@@ -35,8 +35,7 @@ const useStyles = createStyles(({ colors }) => ({
 }));
 
 export const SearchPage: FC = () => {
-  const matches = useMediaQuery('(min-width: 56.25em)');
-  console.log(matches);
+  const matchesTablet = useMediaQuery('(max-width: 800px)');
   const { classes } = useStyles();
   const [isLoading, setLoading] = useState(false);
   const [vacancies, setVacancies] = useState<Array<Vacancy>>([]);
@@ -64,15 +63,18 @@ export const SearchPage: FC = () => {
   return (
     <Container w={'100%'} p={0} className={classes.search_wrapper}>
       <Flex
-        py={40}
+        py={matchesTablet ? 10 : 40}
         px={10}
-        gap={em('28px')}
+        gap={em(matchesTablet ? '10px' : '28px')}
         className={classes.search_container}
+        direction={matchesTablet ? 'column' : 'row'}
       >
         <FilterBar handleChange={handleFilter} filter={filter} />
         <Container p={0} m={0} w={'100%'}>
           <Flex align={'center'} direction={'column'} gap={'0.5em'} h={'100%'}>
             <TextInput
+              pos={'sticky'}
+              top={0}
               size="md"
               w={'100%'}
               icon={<IconSearch size="1.1rem" stroke={1.5} />}
