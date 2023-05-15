@@ -1,6 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  Navigate,
+  redirect,
+  RouterProvider,
+} from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { MantineProvider } from '@mantine/core';
 import {
@@ -20,10 +25,10 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
-      { path: 'search', element: <SearchPage /> },
-      { path: 'vacancy/:id', element: <VacancyPage /> },
-      { path: 'favorite', element: <FavoritePage /> },
-      { path: '*', element: <ErrorPage /> },
+      { path: '/', element: <SearchPage /> },
+      { path: '/vacancy/:id', element: <VacancyPage /> },
+      { path: '/favorite', element: <FavoritePage /> },
+      { path: '*', element: <Navigate to={'/'} replace /> },
     ],
   },
 ]);
